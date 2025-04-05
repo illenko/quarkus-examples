@@ -1,37 +1,36 @@
 package org.acme.inventory.database
 
-import jakarta.enterprise.context.ApplicationScoped
+import io.quarkus.logging.Log
+import jakarta.inject.Singleton
 import org.acme.inventory.model.Car
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.atomic.AtomicLong
 
-@ApplicationScoped
+@Singleton
 class CarInventory {
     private val cars =
         CopyOnWriteArrayList<Car>().apply {
+            Log.info("Initializing car inventory with sample data")
             addAll(
                 listOf(
                     Car(
+                        id = ids.incrementAndGet(),
                         licensePlateNumber = "ABC123",
                         manufacturer = "Toyota",
                         model = "Corolla",
-                    ).apply {
-                        id = ids.incrementAndGet()
-                    },
+                    ),
                     Car(
+                        id = ids.incrementAndGet(),
                         licensePlateNumber = "XYZ789",
                         manufacturer = "Honda",
                         model = "Civic",
-                    ).apply {
-                        id = ids.incrementAndGet()
-                    },
+                    ),
                     Car(
+                        id = ids.incrementAndGet(),
                         licensePlateNumber = "LMN456",
                         manufacturer = "Ford",
                         model = "Focus",
-                    ).apply {
-                        id = ids.incrementAndGet()
-                    },
+                    ),
                 ),
             )
         }
