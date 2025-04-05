@@ -43,6 +43,14 @@ class CarInventory {
         return car
     }
 
+    fun remove(licensePlateNumber: String): Car {
+        val car =
+            cars.find { it.licensePlateNumber == licensePlateNumber }
+                ?: throw IllegalArgumentException("Car with license plate number $licensePlateNumber not found")
+        cars.remove(car)
+        return car
+    }
+
     companion object {
         val ids = AtomicLong(0)
     }
