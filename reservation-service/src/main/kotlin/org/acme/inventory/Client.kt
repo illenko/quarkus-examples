@@ -1,19 +1,14 @@
 package org.acme.inventory
 
-import jakarta.inject.Singleton
+import io.smallrye.graphql.client.typesafe.api.GraphQLClientApi
+import org.eclipse.microprofile.graphql.Query
 
 interface InventoryClient {
     fun allCars(): List<Car>
 }
 
-@Singleton
-class InMemoryInventoryClient : InventoryClient {
-    private val cars =
-        listOf(
-            Car(1, "ABC123", "Toyota", "Corolla"),
-            Car(2, "XYZ789", "Honda", "Civic"),
-            Car(3, "LMN456", "Ford", "Focus"),
-        )
-
-    override fun allCars(): List<Car> = cars
+@GraphQLClientApi(configKey = "inventory")
+interface GraphQLInventoryClient : InventoryClient {
+    @Query("cars")
+    override fun allCars(): List<Car>
 }

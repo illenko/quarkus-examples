@@ -35,7 +35,13 @@ class CarInventory {
             )
         }
 
-    fun getCars(): MutableList<Car> = cars
+    fun all(): MutableList<Car> = cars
+
+    fun add(car: Car): Car {
+        car.id = ids.incrementAndGet()
+        cars.add(car)
+        return car
+    }
 
     companion object {
         val ids = AtomicLong(0)
