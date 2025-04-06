@@ -31,12 +31,12 @@ class ReservationResource(
     ): List<Car> {
         val carById = inventoryClient.allCars().associateBy { it.id }.toMutableMap()
 
-        Log.info("Cars available: $carById")
-
         reservationRepository
             .findAll()
             .filter { it.isReserved(startDate!!, endDate!!) }
             .mapNotNull { carById.remove(it.carId) }
+
+        Log.info("Cars available: $carById")
 
         return carById.values.toList()
     }
