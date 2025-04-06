@@ -51,10 +51,12 @@ class ReservationResource(
             val rental =
                 rentalClient.start(
                     userId = userId,
-                    reservationId = result.id,
+                    reservationId = result.id!!,
                 )
 
             Log.info("Rental started: $rental")
+        } else {
+            Log.info("Rental not started: ${result.startDate} != ${LocalDate.now()}")
         }
 
         return result

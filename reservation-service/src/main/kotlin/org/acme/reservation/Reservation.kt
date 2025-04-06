@@ -3,7 +3,7 @@ package org.acme.reservation
 import java.time.LocalDate
 
 data class Reservation(
-    val id: Long,
+    val id: Long? = null,
     val carId: Long,
     val startDate: LocalDate,
     val endDate: LocalDate,
