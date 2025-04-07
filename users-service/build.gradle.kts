@@ -14,19 +14,16 @@ val quarkusPlatformArtifactId: String by project
 val quarkusPlatformVersion: String by project
 
 dependencies {
-    implementation("io.quarkus:quarkus-oidc")
-    implementation("io.quarkus:quarkus-smallrye-graphql-client")
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
     implementation("io.quarkus:quarkus-rest-client-jackson")
-    implementation("io.quarkus:quarkus-smallrye-openapi")
-    implementation("io.quarkus:quarkus-rest-jackson")
+    implementation("io.quarkus:quarkus-qute")
+    implementation("io.quarkus:quarkus-rest-qute")
     implementation("io.quarkus:quarkus-kotlin")
+    implementation("io.quarkus:quarkus-oidc")
+    implementation("io.quarkus:quarkus-rest-client-oidc-token-propagation")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.quarkus:quarkus-arc")
-    implementation("io.quarkus:quarkus-rest")
     testImplementation("io.quarkus:quarkus-junit5")
-    testImplementation("io.quarkus:quarkus-junit5-mockito")
-    testImplementation("io.rest-assured:rest-assured")
 }
 
 group = "org.acme"

@@ -7,6 +7,7 @@ import jakarta.ws.rs.POST
 import jakarta.ws.rs.Path
 import jakarta.ws.rs.Produces
 import jakarta.ws.rs.core.MediaType
+import jakarta.ws.rs.core.SecurityContext
 import org.acme.inventory.Car
 import org.acme.inventory.GraphQLInventoryClient
 import org.acme.rental.RentalClient
@@ -22,6 +23,7 @@ class ReservationResource(
     private val reservationRepository: ReservationRepository,
     @GraphQLClient("inventory") private val inventoryClient: GraphQLInventoryClient,
     @RestClient private val rentalClient: RentalClient,
+    private val securityContext: SecurityContext,
 ) {
     @GET
     @Path("availability")
@@ -43,14 +45,16 @@ class ReservationResource(
 
     @POST
     fun reserve(reservation: Reservation): Reservation {
+        reservation.userId = securityContext.userPrincipal?.name ?: "anonymous"
+
         val result = reservationRepository.save(reservation)
 
-        val userId = "x"
+        val userId = reservation.userId
 
         if (result.startDate == LocalDate.now()) {
             val rental =
                 rentalClient.start(
-                    userId = userId,
+                    userId = userId!!,
                     reservationId = result.id!!,
                 )
 
@@ -61,4 +65,11 @@ class ReservationResource(
 
         return result
     }
+
+    @GET
+    @Path("all")
+    fun all(): List<Reservation> =
+        securityContext.userPrincipal?.name.let { userName ->
+            reservationRepository.findAll().filter { it.userId == userName }
+        }
 }

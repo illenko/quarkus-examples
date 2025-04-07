@@ -7,6 +7,7 @@ data class Reservation(
     val carId: Long,
     val startDate: LocalDate,
     val endDate: LocalDate,
+    var userId: String? = null,
 ) {
     fun isReserved(
         startDate: LocalDate,
